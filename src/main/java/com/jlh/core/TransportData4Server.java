@@ -1,5 +1,6 @@
 package com.jlh.core;
 
+import com.jlh.util.JedisServerListUtils;
 import com.jlh.util.JedisSocketPropUtils;
 
 import java.io.InputStream;
@@ -39,7 +40,7 @@ public class TransportData4Server implements Runnable{
                 int readlen = in.read(data);
                 //如果没有数据，则暂停
                 String key = getKey(data);
-                RedisNode r=JedisSocketPropUtils.getServer(key.hashCode()% JedisSocketPropUtils.size());
+                RedisNode r= JedisServerListUtils.getServer(key.hashCode()% JedisServerListUtils.size());
                 System.out.println (r.getName());
                 if (target==null&&!isEmpty(key)) {
                     target = new InetSocketAddress(r.getAddr(), r.getPort());
