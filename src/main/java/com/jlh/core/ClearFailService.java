@@ -30,8 +30,10 @@ public class ClearFailService implements Runnable{
                         System.out.println(url[0] + "is open try to add it");
                     }
                 } catch (IOException e) {
-                    System.out.println(url[0] + "is closed try to remove it");
-                    JedisSocketPropUtils.removeServer(i);
+                    if (url[3].equals("1")) {
+                        System.out.println(url[0] + "is closed try to remove it");
+                        JedisSocketPropUtils.removeServer(i);
+                    }
                 }
             }
             try {
