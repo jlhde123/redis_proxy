@@ -1,5 +1,7 @@
 package com.jlh.util;
 
+import com.jlh.core.RedisNode;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.util.Properties;
  */
 public class JedisSocketPropUtils {
     private static Properties prop;
-    private static ArrayList<String[]> servers =new ArrayList<>();
+    private static ArrayList<RedisNode> servers =new ArrayList<>();
     private static String default_file="/server.properties";
     private static boolean filebool=false;
 
@@ -61,40 +63,40 @@ public class JedisSocketPropUtils {
         ).forEach(m -> {
             String socket = prop.getProperty(m);
             String url[] = socket.split(":");
-            String urls[] = new String[4];
-            urls[0] = m;
-            urls[1] = url[0];
-            urls[2] = url[1];
-            urls[3] = "1";
-            servers.add(urls);
+            RedisNode r= new RedisNode();
+            r.setName(m);
+            r.setAddr(url[0]);
+            r.setPort(Integer.valueOf(url[1]));
+            r.setAlive(true);
+            servers.add(r);
         });
     }
-    public static String[]  getServer(int index){
+    public static RedisNode getServer(int index){
         if (size()<1)
             return null;
         Integer num=servers.size();
         for (int i=0;i<num;i++){
-            String res[]=servers.get((index+i)%num);
-            if (res[3].equals("1"))
+            RedisNode res=servers.get((index+i)%num);
+            if (res.isAlive())
                 return res;
         }
         return null;
     }
 
-    public static String[] getAllServer (int index){
+    public static RedisNode getAllServer (int index){
         if (size()<1)
             return null;
         return servers.get(index);
     }
 
-    public static void removeServer (int index){
-        String urls[]=servers.get(index);
-        urls[3]="0";
-        servers.set(index,urls);
+    public static void disableServer (int index){
+        RedisNode r=servers.get(index);
+        r.setAlive(false);
+        servers.set(index,r);
     }
 
-    public static void setServer (int index,String []url){
-        servers.set(index,url);
+    public static void setServer (int index,RedisNode r){
+        servers.set(index,r);
     }
     public static int size(){
         return servers.size();

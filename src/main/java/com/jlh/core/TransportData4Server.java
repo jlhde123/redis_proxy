@@ -39,10 +39,10 @@ public class TransportData4Server implements Runnable{
                 int readlen = in.read(data);
                 //如果没有数据，则暂停
                 String key = getKey(data);
-                String url[]=JedisSocketPropUtils.getServer(key.hashCode()% JedisSocketPropUtils.size());
-                System.out.println (url[0]);
+                RedisNode r=JedisSocketPropUtils.getServer(key.hashCode()% JedisSocketPropUtils.size());
+                System.out.println (r.getName());
                 if (target==null&&!isEmpty(key)) {
-                    target = new InetSocketAddress(url[1], Integer.valueOf(url[2]));
+                    target = new InetSocketAddress(r.getAddr(), r.getPort());
                     putDataSocket.connect(target);
                     new Thread(()->{
                         try {

@@ -20,19 +20,19 @@ public class ClearFailService implements Runnable{
             System.out.println ("clear thread start");
             Integer num = JedisSocketPropUtils.size();
             for (int i = 0; i < num; i++) {
-                String url[] = JedisSocketPropUtils.getAllServer(i);
+                RedisNode r = JedisSocketPropUtils.getAllServer(i);
                 try {
-                    Socket sk = new Socket(url[1], Integer.valueOf(url[2]));
+                    Socket sk = new Socket(r.getAddr(),r.getPort());
                     sk = null;
-                    if (url[3].equals("0")) {
-                        url[3] = "1";
-                        JedisSocketPropUtils.setServer(i, url);
-                        System.out.println(url[0] + "is open try to add it");
+                    if (!r.isAlive()) {
+                        r.setAlive(true);
+                        JedisSocketPropUtils.setServer(i, r);
+                        System.out.println(r.getName() + "is open try to add it");
                     }
                 } catch (IOException e) {
-                    if (url[3].equals("1")) {
-                        System.out.println(url[0] + "is closed try to remove it");
-                        JedisSocketPropUtils.removeServer(i);
+                    if (r.isAlive()) {
+                        System.out.println(r.getName() + "is closed try to remove it");
+                        JedisSocketPropUtils.disableServer(i);
                     }
                 }
             }
