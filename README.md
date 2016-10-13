@@ -14,8 +14,9 @@ redis.clear.time=30
 redis.proxy.port=5556
 #连接池并发数
 redis.proxy.maxPool=18
- 
- 
+#虚拟节点数量
+redis.proxy.vituralnum=40
+#注释 
 com.jlh.core.RedisService 为测试用例
 
 #使用
