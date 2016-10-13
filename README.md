@@ -18,7 +18,7 @@ redis.proxy.maxPool=18
  
 com.jlh.core.RedisService 为测试用例
 
-
+#使用
 mvn assembly:assembly 打包成可执行jar
 
 通过java -jar 执行 
