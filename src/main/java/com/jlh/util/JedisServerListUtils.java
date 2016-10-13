@@ -94,7 +94,7 @@ public class JedisServerListUtils {
             servers.add(r);
         });
 
-        initlize(12);
+        initlize(Integer.valueOf(JedisSocketPropUtils.getProp("redis.proxy.vituralnum","12")));
     }
 
 

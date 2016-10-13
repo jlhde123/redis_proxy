@@ -26,6 +26,9 @@ public class RedisService {
     public static void main(String[] args) throws InterruptedException {
         RedisService r= new RedisService();
         System.out.println (r.get("jlh1"));
+        System.out.println (r.get("jlh1"));
+        System.out.println (r.get("jlh1"));
+        System.out.println (r.get("jlh1"));
 
     }
 }

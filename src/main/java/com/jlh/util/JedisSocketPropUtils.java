@@ -53,4 +53,8 @@ public class JedisSocketPropUtils {
     public static String getProp (String key){
         return prop.getProperty(key);
     }
+
+    public static String getProp (String key,String default_value){
+        return prop.getProperty(key,default_value);
+    }
 }
